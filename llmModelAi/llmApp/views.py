@@ -9,7 +9,7 @@ from langchain.chains.question_answering import load_qa_chain
 from langchain.llms import OpenAI
 from langchain.callbacks import get_openai_callback
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "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"
 
 # Create your views here.
 
@@ -37,10 +37,13 @@ def pdf_chat(request):
                 length_function=len
             )
             chunks = text_splitter.split_text(text)
+            print(chunks)
 
             # Create embeddings and knowledge base
             embeddings = OpenAIEmbeddings()
             knowledge_base = FAISS.from_texts(chunks, embeddings)
+            print("inside the knowledge_base")
+            
 
             # Perform similarity search
             docs = knowledge_base.similarity_search(user_question)

@@ -1,67 +1,57 @@
+import os
+# pdf_chatbot_app/views.py
 from django.shortcuts import render
-import streamlit as st
-from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
+from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
+from langchain.chains.question_answering import load_qa_chain
+from langchain.llms import OpenAI
+from langchain.callbacks import get_openai_callback
+
+os.environ["OPENAI_API_KEY"] = "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"
+
 # Create your views here.
 
+def home(request):
+    return render(request, 'home.html')
 
 
 
-def get_pdf_text(pdf_docs):
-    text = ""
-    for pdf in pdf_docs:
-        pdf_reader = PdfReader(pdf)
-        for page in pdf_reader.pages:
-            text += page.extract_text()
-    return text
+def pdf_chat(request):
+    chat_response = ''
 
+    if request.method == 'POST':
+        pdf = request.FILES.get('pdf')
+        user_question = request.POST.get('question')
 
-def get_text_chunks(text):
-    text_splitter = CharacterTextSplitter(
-        separator="\n",
-        chunk_size=1000,
-        chunk_overlap=200,
-        length_function=len
-    )
-    chunks = text_splitter.split_text(text)
-    return chunks
+        if pdf and user_question:
+            pdf_reader = PdfReader(pdf)
+            text = ''.join(page.extract_text() for page in pdf_reader.pages)
 
+            # Split text into chunks
+            text_splitter = CharacterTextSplitter(
+                separator="\n",
+                chunk_size=1000,
+                chunk_overlap=200,
+                length_function=len
+            )
+            chunks = text_splitter.split_text(text)
 
-def get_vectorstore(text_chunks):
-    embeddings = OpenAIEmbeddings()
-    # embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
-    vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
-    return vectorstore
+            # Create embeddings and knowledge base
+            embeddings = OpenAIEmbeddings()
+            knowledge_base = FAISS.from_texts(chunks, embeddings)
 
-    
+            # Perform similarity search
+            docs = knowledge_base.similarity_search(user_question)
 
-def main():
-    load_dotenv()
-    st.set_page_config(page_title="Chat with multiple PDFs", page_icon=":books:")
-    
-    st.header("Chat with multiple PDFs Books")
-    st.text_input("Ask a Question about your documents: ")
-    
-    with st.sidebar:
-        st.subheader("Your documents")
-        pdf_docs = st.file_uploader(
-            "Upload your PDFs here and click on 'Process'", accept_multiple_files=True)
-        if st.button("Process"):
-            with st.spinner("Processing"):
-                # get pdf text
-                raw_text = get_pdf_text(pdf_docs)
+            # Load LangChain model and run question answering
+            llm = OpenAI()
+            chain = load_qa_chain(llm, chain_type="stuff")
+            with get_openai_callback() as cb:
+                response = chain.run(input_documents=docs, question=user_question)
 
-                # get the text chunks
-                text_chunks = get_text_chunks(raw_text)
+            chat_response = response
 
-                # create vector store
-                vectorstore = get_vectorstore(text_chunks)
-                
-                
-                
-
-if __name__ == '__main__':
-    main()
+    context = {'chat_response': chat_response}
+    return render(request, 'pdf_chat.html', context)

@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-ek1(ldjbccs-+c1unm#b0ejp4qbx**w3-y#ek69afir2t^*48@"
+SECRET_KEY = "django-insecure-diy3fp=!^u9wrj@adqw5wc8q%8vt3!xgeaotuyyxvj#fjkjxe9"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -74,10 +74,21 @@ WSGI_APPLICATION = "llmModelAi.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'llmModel',
+        'USER': 'root',
+        'PASSWORD': 'aman1234',
+        'HOST':'localhost',
+        'PORT':'3306',
     }
 }
 

@@ -1,0 +1,49 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Chatbot</title>
+</head>
+<body>
+    <h2>Ask your PDF 💬</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="pdf_file">
+        <button type="submit">Upload PDF</button>
+    </form>
+    
+    {% if response %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="user_question" placeholder="Ask a question about your PDF">
+        <button type="submit">Get Answer</button>
+    </form>
+    
+    <h3>Answer:</h3>
+    <p>{{ response }}</p>
+    {% endif %}
+</body>
+</html> {% endcomment %}
+
+
+<!-- pdf_chatbot_app/templates/pdf_chat.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Chatbot</title>
+</head>
+<body>
+    <h1>Ask your PDF 💬</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="pdf">Upload your PDF:</label>
+        <input type="file" name="pdf" accept=".pdf"><br><br>
+        <label for="question">Ask a question about your PDF:</label>
+        <input type="text" name="question"><br><br>
+        <input type="submit" value="Ask">
+    </form>
+    <h2>Chatbot Response:</h2>
+    <p>{{ chat_response }}</p>
+</body>
+</html>
+

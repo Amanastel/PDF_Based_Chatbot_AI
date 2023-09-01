@@ -5,15 +5,15 @@ from django.contrib.auth.forms import UserCreationForm
 from .models import CustomProfile
 
 
-class CustomProfileForm(forms.ModelForm):
+class RegistrationForm(forms.ModelForm):
     class Meta:
         model = CustomProfile
-        fields = ['username', 'first_name', 'last_name', 'email', 'phone', 'address']
+        fields = ('phone', 'address')
 
 class PDFDocumentForm(forms.ModelForm):
     class Meta:
         model = PDFDocument
-        fields = ['title', 'document', 'embedding']
+        fields = ['title', 'embedding']
         
 
 class ChatMessageForm(forms.ModelForm):

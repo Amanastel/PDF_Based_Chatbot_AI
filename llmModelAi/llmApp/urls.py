@@ -22,5 +22,7 @@ from llmApp.views import *
 urlpatterns = [
     path('',views.home,name='home'),
     path('pdf-chat/', pdf_chat, name='pdf_chat'),
+    path('register/', views.register, name='register'),
+    path('login/', views.user_login, name='login'),
     
 ]

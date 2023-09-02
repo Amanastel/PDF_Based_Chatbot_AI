@@ -16,7 +16,7 @@ class PDFDocumentForm(forms.ModelForm):
         fields = ['title', 'embedding']
         
 
-class ChatMessageForm(forms.ModelForm):
-    class Meta:
-        model = ChatMessage
-        fields = ['message']
+# class ChatMessageForm(forms.ModelForm):
+#     class Meta:
+#         model = ChatMessage
+#         fields = ['message']

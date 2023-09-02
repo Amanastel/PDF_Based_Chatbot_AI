@@ -25,10 +25,20 @@ class PDFDocument(models.Model):
     def __str__(self):
         return f"{self.user.username}'s PDF: {self.document.name}"
 
+# class ChatMessage(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     message = models.TextField()
+#     timestamp = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return f"{self.user.username} at {self.timestamp}: {self.message}"
+
 class ChatMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.TextField()
+    question = models.TextField()
+    answer = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} at {self.timestamp}: {self.message}"
+        return f"{self.user.username} at {self.timestamp}: Q: {self.question}, A: {self.answer}"

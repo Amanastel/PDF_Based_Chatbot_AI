@@ -1,36 +1,72 @@
-{% comment %} <!DOCTYPE html>
-<html>
-<head>
-    <title>PDF Chatbot</title>
-</head>
-<body>
-    <h2>Ask your PDF 💬</h2>
-    
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <input type="file" name="pdf_file">
-        <button type="submit">Upload PDF</button>
-    </form>
-    
-    {% if response %}
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="user_question" placeholder="Ask a question about your PDF">
-        <button type="submit">Get Answer</button>
-    </form>
-    
-    <h3>Answer:</h3>
-    <p>{{ response }}</p>
-    {% endif %}
-</body>
-</html> {% endcomment %}
-
-
-<!-- pdf_chatbot_app/templates/pdf_chat.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>PDF Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .chat-container {
+            width: 900px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-message {
+            
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            
+        }
+
+        .user-message {
+            background-color: #e0f7fa;
+            color: #333;
+            float: left;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        .bot-message {
+            background-color: #2196F3;
+            color: #fff;
+            {% comment %} float: right; {% endcomment %}
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="file"],
+        input[type="text"],
+        input[type="submit"] {
+            width: 100%;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
     <h1>Ask your PDF 💬</h1>
@@ -42,8 +78,33 @@
         <input type="text" name="question"><br><br>
         <input type="submit" value="Ask">
     </form>
+
     <h2>Chatbot Response:</h2>
     <p>{{ chat_response }}</p>
+
+    <h2>Chat History:</h2>
+    <div class="chat-container">
+        {% for message in chat_history %}
+            <div class="chat-message">
+                {% if message.user == request.user %}
+                    <div class="user-message">
+                        <p>Q: {{ message.message }}</p>
+                    </div>
+                    <div class="bot-message">
+                        <p>A: {{ message.answer }}</p>
+                    </div>
+                {% else %}
+                    <div class="bot-message">
+                        <p>A: {{ message.answer }}</p>
+                    </div>
+                    <div class="user-message">
+                        <p>Q: {{ message.question }}</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p>No chat history yet.</p>
+        {% endfor %}
+    </div>
 </body>
 </html>
-

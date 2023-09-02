@@ -13,6 +13,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
+from .models import ChatMessage
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -24,8 +26,97 @@ def home(request):
 
 
 
+# def pdf_chat(request):
+#     chat_response = ''
+
+#     if request.method == 'POST':
+#         pdf = request.FILES.get('pdf')
+#         user_question = request.POST.get('question')
+
+#         if pdf and user_question:
+#             pdf_reader = PdfReader(pdf)
+#             text = ''.join(page.extract_text() for page in pdf_reader.pages)
+
+#             # Split text into chunks
+#             text_splitter = CharacterTextSplitter(
+#                 separator="\n",
+#                 chunk_size=1000,
+#                 chunk_overlap=200,
+#                 length_function=len
+#             )
+#             chunks = text_splitter.split_text(text)
+#             print(chunks)
+
+#             # Create embeddings and knowledge base
+#             embeddings = OpenAIEmbeddings()
+#             knowledge_base = FAISS.from_texts(chunks, embeddings)
+#             print("inside the knowledge_base")
+            
+
+#             # Perform similarity search
+#             docs = knowledge_base.similarity_search(user_question)
+
+#             # Load LangChain model and run question answering
+#             llm = OpenAI()
+#             chain = load_qa_chain(llm, chain_type="stuff")
+#             with get_openai_callback() as cb:
+#                 response = chain.run(input_documents=docs, question=user_question)
+
+#             chat_response = response
+
+#     context = {'chat_response': chat_response}
+#     return render(request, 'pdf_chatbot.html', context)
+
+
+
+# @login_required
+# def pdf_chat(request):
+#     chat_response = ''
+#     chat_history = ChatMessage.objects.all()  # Retrieve all chat history
+
+#     if request.method == 'POST':
+#         pdf = request.FILES.get('pdf')
+#         user_question = request.POST.get('question')
+
+#         if pdf and user_question:
+#             pdf_reader = PdfReader(pdf)
+#             text = ''.join(page.extract_text() for page in pdf_reader.pages)
+
+#             # Split text into chunks
+#             text_splitter = CharacterTextSplitter(
+#                 separator="\n",
+#                 chunk_size=1000,
+#                 chunk_overlap=200,
+#                 length_function=len
+#             )
+#             chunks = text_splitter.split_text(text)
+
+#             # Create embeddings and knowledge base
+#             embeddings = OpenAIEmbeddings()
+#             knowledge_base = FAISS.from_texts(chunks, embeddings)
+
+#             # Perform similarity search
+#             docs = knowledge_base.similarity_search(user_question)
+
+#             # Load LangChain model and run question answering
+#             llm = OpenAI()
+#             chain = load_qa_chain(llm, chain_type="stuff")
+#             with get_openai_callback() as cb:
+#                 response = chain.run(input_documents=docs, question=user_question)
+
+#             chat_response = response
+
+#             # Save the chat message to the database
+#             chat_message = ChatMessage(user=request.user, message=user_question, answer=chat_response)
+#             chat_message.save()
+
+#     context = {'chat_response': chat_response, 'chat_history': chat_history}
+#     return render(request, 'pdf_chatbot.html', context)
+
+@login_required
 def pdf_chat(request):
     chat_response = ''
+    chat_history = ChatMessage.objects.filter(user=request.user).order_by('timestamp')  # Retrieve chat history for the logged-in user
 
     if request.method == 'POST':
         pdf = request.FILES.get('pdf')
@@ -43,13 +134,10 @@ def pdf_chat(request):
                 length_function=len
             )
             chunks = text_splitter.split_text(text)
-            print(chunks)
 
             # Create embeddings and knowledge base
             embeddings = OpenAIEmbeddings()
             knowledge_base = FAISS.from_texts(chunks, embeddings)
-            print("inside the knowledge_base")
-            
 
             # Perform similarity search
             docs = knowledge_base.similarity_search(user_question)
@@ -62,8 +150,12 @@ def pdf_chat(request):
 
             chat_response = response
 
-    context = {'chat_response': chat_response}
-    return render(request, 'pdf_chat.html', context)
+            # Save the chat message to the database
+            chat_message = ChatMessage(user=request.user, message=user_question, answer=chat_response)
+            chat_message.save()
+
+    context = {'chat_response': chat_response, 'chat_history': chat_history}
+    return render(request, 'pdf_chatbot.html', context)
 
 
 
@@ -102,6 +194,8 @@ def register(request):
         
         return redirect("/register/")
     return render(request, 'register.html')
+
+
 
 
 def user_login(request):

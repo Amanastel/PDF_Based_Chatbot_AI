@@ -1,3 +1,176 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>PDF Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .chat-container {
+            width: 900px;
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-message {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .user-message {
+            background-color: #e0f7fa;
+            color: #333;
+            float: left;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        .bot-message {
+            background-color: #2196F3;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="file"],
+        input[type="text"],
+        input[type="submit"] {
+            width: 100%;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="file"] {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ask your PDF 💬</h1>
+    <button id="convert-pdf">Convert PDF to Text</button>
+
+    <!-- Display the list of PDF documents -->
+    <h2>Your PDF Documents:</h2>
+    <ul id="pdf-list">
+        {% for pdf_doc in pdf_documents %}
+        <li><a href="#" class="pdf-title" data-id="{{ pdf_doc.id }}" data-text-content="{{ pdf_doc.documentContent }}">{{ pdf_doc.title }}</a></li>
+        {% empty %}
+        <li>No PDF documents available.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>PDF Text:</h2>
+    <pre id="pdf-text"></pre>
+
+    <!-- Your existing form for asking questions and displaying chat history -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="pdf">Upload your PDF:</label>
+        <input type="file" name="pdf" accept=".pdf"><br><br>
+        <label for="question">Ask a question about your PDF:</label>
+        <input type="text" name="question"><br><br>
+        <input type="submit" value="Ask">
+    </form>
+
+    <h2>Chatbot Response:</h2>
+    <p>{{ chat_response }}</p>
+
+    <h2>Chat History:</h2>
+    <div class="chat-container">
+        {% for message in chat_history %}
+        <div class="chat-message">
+            {% if message.user == request.user %}
+            <div class="user-message">
+                <p>Q: {{ message.message }}</p>
+            </div>
+            <div class="bot-message">
+                <p>A: {{ message.answer }}</p>
+            </div>
+            {% else %}
+            <div class="bot-message">
+                <p>A: {{ message.answer }}</p>
+            </div>
+            <div class="user-message">
+                <p>Q: {{ message.question }}</p>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No chat history yet.</p>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const convertButton = document.getElementById('convert-pdf');
+            const pdfList = document.getElementById('pdf-list');
+            const pdfText = document.getElementById('pdf-text');
+
+            // Handle PDF to text conversion
+            convertButton.addEventListener('click', function () {
+                const selectedPdf = pdfList.querySelector('.pdf-title.active');
+                if (selectedPdf) {
+                    const pdfId = selectedPdf.getAttribute('data-id');
+                    fetch(`/convert-pdf/${pdfId}/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert(data.message);
+                                location.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => console.error(error));
+                } else {
+                    alert('Please select a PDF document from the list.');
+                }
+            });
+
+            // Handle PDF title click
+            pdfList.addEventListener('click', function (e) {
+                if (e.target && e.target.classList.contains('pdf-title')) {
+                    const pdfTitles = pdfList.querySelectorAll('.pdf-title');
+                    pdfTitles.forEach(title => title.classList.remove('active'));
+                    e.target.classList.add('active');
+
+                    const pdfId = e.target.getAttribute('data-id');
+                    const pdfTextContent = e.target.getAttribute('data-text-content');
+                    pdfText.textContent = pdfTextContent || 'PDF text not available.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+ {% endcomment %}
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,7 +212,7 @@
         .bot-message {
             background-color: #2196F3;
             color: #fff;
-            {% comment %} float: right; {% endcomment %}
+            
             padding: 10px;
             border-radius: 5px;
             margin: 20px;
@@ -107,4 +280,4 @@
         {% endfor %}
     </div>
 </body>
-</html>
+</html> 

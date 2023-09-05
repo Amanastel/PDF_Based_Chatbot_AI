@@ -1,0 +1,45 @@
+{% comment %} <!-- chatbotapp/templates/chatbotapp/upload_pdf.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload PDF</title>
+</head>
+<body>
+    <h1>Upload a PDF Document</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Upload">
+    </form>
+    
+    {% if upload_success %}
+    <div class="success-message">
+        <p>PDF successfully uploaded!</p>
+    </div>
+    {% endif %}
+</body>
+</html> {% endcomment %}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload PDF</title>
+</head>
+<body>
+    <h1>Upload a PDF Document</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="pdf_document" accept=".pdf">
+        <input type="submit" value="Upload">
+    </form>
+    
+    {% if upload_success %}
+    <div class="success-message">
+        <p>PDF successfully uploaded!</p>
+    </div>
+    {% endif %}
+</body>
+</html>
+

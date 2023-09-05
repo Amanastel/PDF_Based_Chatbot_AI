@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Responses</title>
+</head>
+<body>
+    <h1>Your Question:</h1>
+    <p>{{ user_question }}</p>
+    
+    <h1>Responses:</h1>
+    <ul>
+        {% for response in responses %}
+        <li>{{ response }}</li>
+        {% endfor %}
+    </ul>
+    
+    <a href="{% url 'ask_question' %}">Ask Another Question</a>
+</body>
+</html>

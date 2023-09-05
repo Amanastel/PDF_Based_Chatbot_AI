@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ask a Question</title>
+</head>
+<body>
+    <h1>Ask a Question About the PDF</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="user_question">Your Question:</label>
+        <input type="text" name="user_question" required>
+        
+        <!-- Add a dropdown to select the PDF -->
+        <select name="selected_pdf">
+            {% for pdf in user_pdfs %}
+            <option value="{{ pdf.id }}">{{ pdf.title }}</option>
+            {% endfor %}
+        </select>
+        
+        <input type="submit" value="Ask">
+    </form>
+</body>
+</html>

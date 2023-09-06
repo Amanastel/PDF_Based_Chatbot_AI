@@ -1,23 +1,188 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Ask a Question</title>
-</head>
-<body>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <br>
+    <style>
+      .container{
+        width: 100%;
+      }
+
+      .chat {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .chat li {
+          margin-bottom: 40px;
+          padding-bottom: 5px;
+          margin-top: 10px;
+          width: 80%;
+        }
+
+        .chat li .chat-body p {
+          margin: 0;
+        }
+
+    
+        .chat-care {
+          overflow-y: scroll;
+          height: 550px;
+        }
+
+        .chat-care .chat-img {
+          width: 50px;
+          height: 50px;
+        }
+
+        .chat-care .img-circle {
+          border-radius: 50%;
+        }
+
+        .chat-care .chat-img {
+          display: inline-block;
+        }
+
+        .chat-care .chat-body {
+          display: inline-block;
+          max-width: 80%;
+          padding: 15px;
+          border-radius: 12.5px;
+        }
+
+        .chat-care .chat-body strong {
+          color: #0169DA;
+        }
+
+        .chat-care .admin {
+          text-align: right;
+          float: right;
+        }
+
+        .chat-care .admin p {
+          text-align: left;
+        }
+
+        .chat-care .agent {
+          text-align: left;
+          float: left;
+        }
+
+        .chat-care .left {
+          float: left;
+        }
+
+        .chat-care .right {
+          float: right;
+        }
+
+        .clearfix {
+          clear: both;
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar-track {
+          box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+          -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+          background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar {
+          width: 12px;
+          background-color: #F5F5F5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+          -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+          background-color: #555;
+        }
+    </style>
+   
+  </head>
+  <body>
     <h1>Ask a Question About the PDF</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="user_question">Your Question:</label>
-        <input type="text" name="user_question" required>
-        
-        <!-- Add a dropdown to select the PDF -->
-        <select name="selected_pdf">
-            {% for pdf in user_pdfs %}
-            <option value="{{ pdf.id }}">{{ pdf.title }}</option>
-            {% endfor %}
-        </select>
-        
-        <input type="submit" value="Ask">
-    </form>
-</body>
+      
+    <div class="container-Upload"> 
+        <div>
+            <h1>Upload a PDF Document</h1>
+            
+          </div>
+    </div>
+    <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <div class="card">
+                        <div class="card-header text-center">
+                            <span>Chat History</span>
+                        </div>
+                        <div class="card-body chat-care">
+                            <ul class="chat">
+                                {% for message in chat_history %}
+                                <li class="{% if message.user == request.user %}admin{% else %}agent{% endif %} clearfix">
+                                    <span class="chat-img {% if message.user == request.user %}right{% else %}left{% endif %} clearfix mx-2">
+                                        <img src="http://placehold.it/50/55C1E7/fff&text=ME" alt="{% if message.user == request.user %}Admin{% else %}User{% endif %}" class="img-circle" />
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header clearfix">
+                                            <small class="{% if message.user == request.user %}left{% else %}right{% endif %} text-muted">
+                                                <span class="glyphicon glyphicon-time"></span>{{ message.timestamp|date:"H:i:s" }}</small>
+                                            <strong class="{% if message.user == request.user %}right{% else %}left{% endif %} primary-font">{{ message.user }}</strong>
+                                        </div>
+                                        <p>
+                                            {{ message.message }}
+                                        </p>
+                                    </div>
+
+                                </li>
+                                <li class="agent clearfix">
+                                    <span class="chat-img left clearfix mx-2">
+                                        <img src="https://media.istockphoto.com/id/1010001882/vector/%C3%B0%C3%B0%C2%B5%C3%B1%C3%B0%C3%B1%C3%B1.jpg?s=612x612&w=0&k=20&c=1jeAr9KSx3sG7SKxUPR_j8WPSZq_NIKL0P-MA4F1xRw=" alt="Agent" class="img-circle" style="width: 80px; height: 80px; color: #fff; cursor: default; text-align: center; line-height: 50px; align-self: flex-end; background: #724ae8; border-radius: 4px; margin: 0 10px 7px 0;" />
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header clearfix">
+                                            <strong class="primary-font">Jack Sparrow</strong> <small class="right text-muted">
+                                                <span class="glyphicon glyphicon-time"></span>{{ message.timestamp|date:"H:i:s" }}</small>
+                                        </div>
+                                        <p>
+                                            {{ message.answer }}
+                                        </p>
+                                    </div>
+                                </li>
+                                {% empty %}
+                                <p>No chat history yet.</p>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                        <div class="card-footer">
+                            <form method="post">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input id="btn-input" type="text" name="user_question" required class="form-control input-sm" placeholder="Type your message here..." />
+                                    <select name="selected_pdf">
+                                        {% for pdf in user_pdfs %}
+                                        <option value="{{ pdf.id }}">{{ pdf.title }}</option>
+                                        {% endfor %}
+                                      </select>
+                                    <span class="input-group-btn">
+                                        <input class="btn btn-primary" id="btn-chat" type="submit" value="Ask" />
+                                    </span>
+                                </div>
+                          
+                               
+                              </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </body>
 </html>

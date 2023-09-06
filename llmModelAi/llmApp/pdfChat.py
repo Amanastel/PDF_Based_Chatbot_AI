@@ -23,7 +23,9 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 import os
+from dotenv import load_dotenv
 
+# os.environ["OPENAI_API_KEY"] = "api key"
 
 vector_store = None
 conversation_chain = None 
@@ -80,7 +82,7 @@ def upload_pdf(request):
         form = PDFUploadForm(request.POST, request.FILES)
         if form.is_valid():
             pdf_document = request.FILES['pdf_document']
-            # title = request.POST.get('title', )
+           
             # Save the PDF document to the database and process it here
             pdf = PDFDocument(user=request.user, title=pdf_document.name)
             pdf.save()
@@ -96,42 +98,26 @@ def upload_pdf(request):
 def process_uploaded_pdf(pdf_file):
     raw_text = get_pdf_text(pdf_file)
     # print("Extracted PDF text:", raw_text)
-    text_chunks = get_text_chunks(raw_text)
+    # text_chunks = get_text_chunks(raw_text)
     # print(text_chunks)
-    return text_chunks
+    return raw_text
 
 
 
-def ask_question(request):
+# def ask_question(request):
+    chat_history = ChatMessage.objects.filter(user=request.user).order_by('timestamp')  # Retrieve chat history for the logged-in user
     chat_response= ''
     user_pdfs = PDFDocument.objects.filter(user=request.user)
     if request.method == 'POST':
         user_question = request.POST.get('user_question')
         selected_pdf_id = request.POST.get('selected_pdf')
         selected_pdf = get_object_or_404(PDFDocument, id=selected_pdf_id)
+        text_chunks = get_text_chunks(selected_pdf.documentContent)
+        print(text_chunks)
         
-        # embeddings = OpenAIEmbeddings()
-        # document = FAISS.from_texts(selected_pdf.documentContent,embeddings)
-        # similarSearch = document.similarity_search(user_question)
-        
-        # llm = OpenAI()
-        # chain = load_qa_chain(llm,chain_type="stuff")
-        # answer = chain.run(input_documents=similarSearch,question=user_question)
-        
-        # print(answer)
-        
-        knowledge_base = get_vectorstore(selected_pdf.documentContent)
+        knowledge_base = get_vectorstore(text_chunks)
         
         docs = knowledge_base.similarity_search(user_question)
-        
-        # llm = ChatOpenAI(openai_api_key=os.environ.get('OPENAI_API_KEY'))
-        # memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
-        # conversation_chain = ConversationalRetrievalChain.from_llm(llm=llm, retriever=knowledge_base.as_retriever(), memory=memory)
-        
-        # if not conversation_chain:
-        #     return {"status": "error", "message": "Please upload and process PDFs first."}
-        # response = conversation_chain({'question': user_question})
-        # print(response)
         
         llm = OpenAI()
         chain = load_qa_chain(llm, chain_type="stuff")
@@ -141,7 +127,48 @@ def ask_question(request):
         
         chat_response = response
         print(chat_response)
-    return render(request, 'ask_question.html', {'user_pdfs': user_pdfs})
+        chat_message = ChatMessage(user=request.user, message=user_question, answer=chat_response)
+        chat_message.save()
+        
+        contexts = {'chat_response': chat_response, 'chat_history': chat_history}
+        
+        context = {'chat_response': chat_response, 'chat_history': chat_history, 'user_question': user_question}
+
+        
+    return render(request, 'ask_question.html', {'user_pdfs': user_pdfs, 'context': context})
+
+
+def ask_question(request):
+    load_dotenv()
+    chat_history = ChatMessage.objects.filter(user=request.user).order_by('timestamp')  # Retrieve chat history for the logged-in user
+    chat_response = ''
+    user_pdfs = PDFDocument.objects.filter(user=request.user)
+    user_question = ""
+
+    if request.method == 'POST':
+        user_question = request.POST.get('user_question')
+        selected_pdf_id = request.POST.get('selected_pdf')
+        selected_pdf = get_object_or_404(PDFDocument, id=selected_pdf_id)
+        text_chunks = get_text_chunks(selected_pdf.documentContent)
+
+        knowledge_base = get_vectorstore(text_chunks)
+
+        docs = knowledge_base.similarity_search(user_question)
+
+        llm = OpenAI()
+        chain = load_qa_chain(llm, chain_type="stuff")
+        with get_openai_callback() as cb:
+            response = chain.run(input_documents=docs, question=user_question)
+
+        chat_response = response
+        print(chat_response)
+        chat_message = ChatMessage(user=request.user, message=user_question, answer=chat_response)
+        chat_message.save()
+
+    context = {'chat_response': chat_response, 'chat_history': chat_history, 'user_question': user_question}
+
+    return render(request, 'ask_question.html', {'user_pdfs': user_pdfs, **context})
+
 
 
 def process_user_question(pdf, user_question):

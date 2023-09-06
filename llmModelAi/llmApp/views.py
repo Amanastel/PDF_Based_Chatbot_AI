@@ -24,7 +24,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from dotenv import load_dotenv
 
-# os.environ["OPENAI_API_KEY"] = "api key"
+
 os.getenv('OPENAI_API_KEY')
 
 
@@ -33,6 +33,8 @@ os.getenv('OPENAI_API_KEY')
 def home(request):
     pdf_documents = PDFDocument.objects.filter(user=request.user)
     return render(request, 'home.html', {'pdf_documents': pdf_documents})
+
+
 
 
 

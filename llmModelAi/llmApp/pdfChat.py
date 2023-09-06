@@ -25,7 +25,6 @@ from django.views import View
 import os
 from dotenv import load_dotenv
 
-# os.environ["OPENAI_API_KEY"] = "api key"
 
 vector_store = None
 conversation_chain = None 

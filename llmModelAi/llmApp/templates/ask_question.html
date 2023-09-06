@@ -1,22 +1,69 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
     <title>Ask a Question</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/bootstrap.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/responsive.css' %}"
+    />
+    <link
+      rel="icon"
+      href="{% static 'images/fevicon.png' %}"
+      type="image/gif"
+    />
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <br>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <br />
     <style>
       .container{
         width: 100%;
+        {% comment %} border: 2px solid red; {% endcomment %}
+
+      }
+      .row{
+
+
       }
 
+      .card{
+        {% comment %} border: 2px solid blue; {% endcomment %}
+        width: 100%;
+        margin-bottom: 100px;
+      }
       .chat {
           list-style: none;
           margin: 0;
           padding: 0;
+
         }
 
         .chat li {
@@ -30,14 +77,14 @@
           margin: 0;
         }
 
-    
+
         .chat-care {
           overflow-y: scroll;
           height: 550px;
         }
 
         .chat-care .chat-img {
-          width: 50px;
+          width: 70px;
           height: 50px;
         }
 
@@ -103,86 +150,296 @@
           -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
           background-color: #555;
         }
-    </style>
-   
-  </head>
-  <body>
-    <h1>Ask a Question About the PDF</h1>
-      
-    <div class="container-Upload"> 
-        <div>
-            <h1>Upload a PDF Document</h1>
+
+
+        .container-Upload {
+           
+            margin: 20px auto;
+            max-width: 600px;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             
+          }
+          
+          .container-Upload h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            margin-top: 200px;
+          }
+          
+          .container-Upload form {
+            margin-top: 20px;
+          }
+          
+          .container-Upload input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          }
+          
+          .container-Upload input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+          
+          .container-Upload input[type="submit"]:hover {
+            background-color: #0056b3;
+          }
+          
+          /* Success message style */
+          .success-message {
+            color: #008000;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+          }
+          
+          /* Alert style */
+          .alert {
+            background-color: #f44336;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-align: center;
+          }
+
+         
+        .timeData{
+            margin-left: 10px;
+            margin-right: 10px;
+            
+        }
+        .card1{
+            border: 2px solid red;
+            margin-top: 200px;
+        }
+        .cart1{
+            margin: 20px auto;
+            background-image: linear-gradient(45deg, #ff5733, #33ff57, #3373ff);
+            background-size: cover; /* Adjust as needed */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+  </head>
+  <body class="l23">
+    <div class="header_section">
+      <div class="header_main">
+        <div class="mobile_menu">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="logo_mobile">
+              <a class="logoImg" href="{% url 'home' %}">Chat World</a>
+            </div>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="home.html">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="home.html">Services</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="home.html">Blog</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="home.html">Contact</a>
+                </li>
+
+                <li>
+                    <form class="d-flex" role="search">
+                        <a href="/logout/" class="btn btn-outline-success btn-light  " type="submit">Logout</a>
+                      </form>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+        <div class="container-fluid">
+          <div class="logo"><a class="logoImg" href="{% url 'home' %}">Chat World</a></div>
+          <div class="menu_main">
+            <ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' %}">Home</a>
+                </li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Services</a></li>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Contact us</a></li>    
+            </ul>
           </div>
+        </div>
+      </div>
+      <!-- banner section start -->
+
+      <!-- banner section end -->
     </div>
-    <br>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 mx-auto">
-                    <div class="card">
-                        <div class="card-header text-center">
-                            <span>Chat History</span>
-                        </div>
-                        <div class="card-body chat-care">
-                            <ul class="chat">
-                                {% for message in chat_history %}
-                                <li class="{% if message.user == request.user %}admin{% else %}agent{% endif %} clearfix">
-                                    <span class="chat-img {% if message.user == request.user %}right{% else %}left{% endif %} clearfix mx-2">
-                                        <img src="http://placehold.it/50/55C1E7/fff&text=ME" alt="{% if message.user == request.user %}Admin{% else %}User{% endif %}" class="img-circle" />
-                                    </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header clearfix">
-                                            <small class="{% if message.user == request.user %}left{% else %}right{% endif %} text-muted">
-                                                <span class="glyphicon glyphicon-time"></span>{{ message.timestamp|date:"H:i:s" }}</small>
-                                            <strong class="{% if message.user == request.user %}right{% else %}left{% endif %} primary-font">{{ message.user }}</strong>
-                                        </div>
-                                        <p>
-                                            {{ message.message }}
-                                        </p>
-                                    </div>
+    
 
-                                </li>
-                                <li class="agent clearfix">
-                                    <span class="chat-img left clearfix mx-2">
-                                        <img src="https://media.istockphoto.com/id/1010001882/vector/%C3%B0%C3%B0%C2%B5%C3%B1%C3%B0%C3%B1%C3%B1.jpg?s=612x612&w=0&k=20&c=1jeAr9KSx3sG7SKxUPR_j8WPSZq_NIKL0P-MA4F1xRw=" alt="Agent" class="img-circle" style="width: 80px; height: 80px; color: #fff; cursor: default; text-align: center; line-height: 50px; align-self: flex-end; background: #724ae8; border-radius: 4px; margin: 0 10px 7px 0;" />
-                                    </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header clearfix">
-                                            <strong class="primary-font">Jack Sparrow</strong> <small class="right text-muted">
-                                                <span class="glyphicon glyphicon-time"></span>{{ message.timestamp|date:"H:i:s" }}</small>
-                                        </div>
-                                        <p>
-                                            {{ message.answer }}
-                                        </p>
-                                    </div>
-                                </li>
-                                {% empty %}
-                                <p>No chat history yet.</p>
-                                {% endfor %}
+    <div class="cart1" >
+    <div class="container-Upload">
+      <div class="car3t1">
+        {% if upload_success %}
+        <script>
+          alert("PDF uploaded successfully!");
+        </script>
+        {% endif %}
 
-                            </ul>
-                        </div>
-                        <div class="card-footer">
-                            <form method="post">
-                                {% csrf_token %}
-                                <div class="input-group">
-                                    <input id="btn-input" type="text" name="user_question" required class="form-control input-sm" placeholder="Type your message here..." />
-                                    <select name="selected_pdf">
-                                        {% for pdf in user_pdfs %}
-                                        <option value="{{ pdf.id }}">{{ pdf.title }}</option>
-                                        {% endfor %}
-                                      </select>
-                                    <span class="input-group-btn">
-                                        <input class="btn btn-primary" id="btn-chat" type="submit" value="Ask" />
-                                    </span>
+        <h1>Upload a PDF Document</h1>
+        <form
+          method="post"
+          enctype="multipart/form-data"
+          action="{% url 'upload_pdf' %}"
+        >
+          {% csrf_token %}
+          <input type="file" name="pdf_document" accept=".pdf" />
+          <input type="submit" value="Upload" />
+        </form>
+
+         {% if upload_success %}
+        <div class="success-message">
+          <p>PDF successfully uploaded!</p>
+        </div>
+        {% endif %} 
+      </div>
+    </div>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <span>Chat History</span>
+                    </div>
+                    <div class="card-body chat-care">
+                        <ul class="chat">
+                            {% for message in chat_history %}
+                            <li class="{% if message.user == request.user %}admin{% else %}agent{% endif %} clearfix">
+                                <span class="chat-img {% if message.user == request.user %}right{% else %}left{% endif %} clearfix mx-2">
+                                    <img src="http://placehold.it/50/55C1E7/fff&text=ME" alt="{% if message.user == request.user %}Admin{% else %}User{% endif %}" class="img-circle" />
+                                </span>
+                                <div class="chat-body clearfix">
+                                    <div class="heade  clearfix">
+                                        <small class="{% if message.user == request.user %}left{% else %}right{% endif %} text-muted">
+                                            <span class="glyphicon glyphicon-time"></span>{{ message.timestamp|date:"H:i:s" }}</small>
+                                        <strong class="timeData {% if message.user == request.user %}right{% else %}left{% endif %} primary-font">{{ message.user }}</strong>
+                                    </div>
+                                    <p>
+                                        {{ message.message }}
+                                    </p>
                                 </div>
-                          
-                               
-                              </form>
-                        </div>
+
+                            </li>
+                            <li class="agent clearfix">
+                                <span class="chat-img left clearfix mx-2">
+                                    <img src="https://media.istockphoto.com/id/1010001882/vector/%C3%B0%C3%B0%C2%B5%C3%B1%C3%B0%C3%B1%C3%B1.jpg?s=612x612&w=0&k=20&c=1jeAr9KSx3sG7SKxUPR_j8WPSZq_NIKL0P-MA4F1xRw=" alt="Agent" class="img-circle" style="width: 80px; height: 80px; color: #fff; cursor: default; text-align: center; line-height: 50px; align-self: flex-end; background: #724ae8; border-radius: 4px; margin: 0 10px 7px 0;" />
+                                </span>
+                                <div class="chat-body clearfix">
+                                    <div class="header  clearfix">
+                                        <strong class=" timeData primary-font ">Jack Sparrow</strong> <small class="right text-muted">
+                                            <span class="glyphicon glyphicon-time"></span>{{ message.timestamp|date:"H:i:s" }}</small>
+                                    </div>
+                                    <p>
+                                        {{ message.answer }}
+                                    </p>
+                                </div>
+                            </li>
+                            {% empty %}
+                            <p>No chat history yet.</p>
+                            {% endfor %}
+
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input id="btn-input" type="text" name="user_question" required class="form-control input-sm" placeholder="Type your message here..." />
+                                <select name="selected_pdf">
+                                    {% for pdf in user_pdfs %}
+                                    <option value="{{ pdf.id }}">{{ pdf.title }}</option>
+                                    {% endfor %}
+                                  </select>
+                                <span class="input-group-btn">
+                                    <input class="btn btn-primary" id="btn-chat" type="submit" value="Ask" />
+                                </span>
+                            </div>
+                      
+                           
+                          </form>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
+    <div class="footer_section layout_padding">
+      <div class="container">
+        <div class="input_btn_main">
+          <input
+            type="text"
+            class="mail_text"
+            placeholder="Enter your email"
+            name="Enter your email"
+          />
+          <div class="subscribe_bt"><a href="#">Conncet</a></div>
+        </div>
+        <div class="location_main">
+          <div class="call_text">
+            <img src="{% static 'images/call-icon.png'%}" />
+          </div>
+          <div class="call_text"><a href="#">Call +01 1234567890</a></div>
+          <div class="call_text">
+            <img src="{% static 'images/mail-icon.png'%}" />
+          </div>
+          <div class="call_text"><a href="#">demo@gmail.com</a></div>
+        </div>
+        <div class="social_icon">
+          <ul>
+            <li>
+              <a href="#"><img src="{% static 'images/fb-icon.png' %}" /></a>
+            </li>
+            <li>
+              <a href="#"
+                ><img src="{% static 'images/twitter-icon.png' %}"
+              /></a>
+            </li>
+            <li>
+              <a href="#"
+                ><img src="{% static 'images/linkedin-icon.png'%}"
+              /></a>
+            </li>
+            <li>
+              <a href="#"
+                ><img src="{% static 'images/instagram-icon.png'%}"
+              /></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

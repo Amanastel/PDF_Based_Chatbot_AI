@@ -76,15 +76,32 @@ def get_conversation_chain(vectorstore):
 
     
     
+# def upload_pdf(request):
+#     if request.method == 'POST':
+#         form = PDFUploadForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             pdf_document = request.FILES['pdf_document']
+           
+#             # Save the PDF document to the database and process it here
+#             pdf = PDFDocument(user=request.user, title=pdf_document.name)
+#             pdf.save()
+#             pdf.documentContent = process_uploaded_pdf(pdf_document)
+#             pdf.save()
+#             return JsonResponse({'message': 'PDF uploaded successfully.'}, status=200)
+#         else:
+#             return JsonResponse({'error': 'Invalid form data.'}, status=400)
+#     else:
+#         form = PDFUploadForm()
+#     return render(request, 'ask_question.html', {'form': form})
+
+@login_required(login_url="/login/")
 def upload_pdf(request):
     if request.method == 'POST':
         form = PDFUploadForm(request.POST, request.FILES)
         if form.is_valid():
             pdf_document = request.FILES['pdf_document']
-           
-            # Save the PDF document to the database and process it here
+            # Save the PDF document to the database
             pdf = PDFDocument(user=request.user, title=pdf_document.name)
-            pdf.save()
             pdf.documentContent = process_uploaded_pdf(pdf_document)
             pdf.save()
             return JsonResponse({'message': 'PDF uploaded successfully.'}, status=200)
@@ -92,7 +109,7 @@ def upload_pdf(request):
             return JsonResponse({'error': 'Invalid form data.'}, status=400)
     else:
         form = PDFUploadForm()
-    return render(request, 'upload_pdf.html', {'form': form})
+    return render(request, 'ask_question.html', {'form': form})
 
 def process_uploaded_pdf(pdf_file):
     raw_text = get_pdf_text(pdf_file)
@@ -137,6 +154,7 @@ def process_uploaded_pdf(pdf_file):
     return render(request, 'ask_question.html', {'user_pdfs': user_pdfs, 'context': context})
 
 
+@login_required(login_url="/login/")
 def ask_question(request):
     load_dotenv()
     chat_history = ChatMessage.objects.filter(user=request.user).order_by('timestamp')  # Retrieve chat history for the logged-in user
@@ -184,11 +202,12 @@ def process_user_question(pdf, user_question):
         return response
 
     
-
+@login_required(login_url="/login/")
 def view_pdf(request, pdf_id):
     pdf = PDFDocument.objects.get(id=pdf_id)
     return render(request, 'view_pdf.html', {'pdf': pdf})
 
+@login_required(login_url="/login/")
 def view_chat_history(request):
     chat_messages = ChatMessage.objects.filter(user=request.user)
     return render(request, 'view_chat_history.html', {'chat_messages': chat_messages})

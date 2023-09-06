@@ -29,7 +29,7 @@ os.getenv('OPENAI_API_KEY')
 
 
 # Create your views here.
-
+@login_required(login_url="/login/")
 def home(request):
     pdf_documents = PDFDocument.objects.filter(user=request.user)
     return render(request, 'home.html', {'pdf_documents': pdf_documents})
@@ -92,7 +92,6 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('login')
-
 
 
 

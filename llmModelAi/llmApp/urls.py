@@ -22,13 +22,13 @@ from llmApp.pdfChat import *
 
 urlpatterns = [
     path('',views.home,name='home'),
-    # path('pdf-chat/', pdf_chat, name='pdf_chat'),
     path('register/', views.register, name='register'),
+    path('logout/', views.user_logout, name='logout'),
     path('login/', views.user_login, name='login'),
-    # path('convert-pdf/<int:pdf_id>/', views.convert_pdf_to_text, name='convert_pdf_to_text'),
     path('upload_pdf/', pdfChat.upload_pdf, name='upload_pdf'),
     path('ask_question/', pdfChat.ask_question, name='ask_question'),
     path('view_pdf/<int:pdf_id>/', pdfChat.view_pdf, name='view_pdf'),
     path('view_chat_history/', pdfChat.view_chat_history, name='view_chat_history'),
+    
     
 ]

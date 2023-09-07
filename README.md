@@ -1,18 +1,40 @@
 # PdfChat
 
 ## Introduction
-This is a Django project that demonstrates how to create a custom user model and define related models for user profiles, PDF documents, and chat messages.
+This Django project demonstrates how to create a custom user model and define related models for user profiles, PDF documents, and chat messages.
 ## Deplolyed App
 https://deployed-site.whatever
 
 
 ## Features
 List out the key features of your application.
+- **Advanced Chatbot Integration**: Utilizes cutting-edge Generative AI and advanced language models to power a chatbot that enables users to interact with uploaded PDF documents.
 
-- Custom user model with extended fields (phone and address).
-- User profiles associated with each user.
-- PDF documents uploaded and associated with users.
-- Chat messages with timestamps.
+- **PDF Document Upload**: Allows users to upload PDF files, making them accessible for content-based queries.
+
+- **Real-time Responses**: Provides real-time chatbot responses to user queries about the content of uploaded PDF documents.
+
+- **Responsive UI**: Implements a responsive user interface, ensuring a seamless experience across various devices for enhanced accessibility.
+
+- **Chat History**: Designed and implemented a chat history feature, allowing users to revisit previous conversations with the chatbot, fostering a user-friendly interaction.
+
+- **Technology Stack**: Employed Python, Django, PyPDF2, chatbot frameworks, LLM, openAI, and natural language processing libraries to architect and develop this solo project, demonstrating proficiency in these industry-standard technologies.
+
+
+
+
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Python (3.x) installed on your system.
+- Django installed (`pip install Django`).
+- Langchain library installed (`pip install langchain`).
+- PyPDF2 library installed (`pip install PyPDF2`).
+- OpenAI API key (set it as an environment variable named `OPENAI_API_KEY`).
+
+
+
 
 ## Getting Started
 
@@ -42,13 +64,14 @@ Provide instructions and examples on how to use your project.
 # Example
 ```
 
-Include screenshots as necessary.
+
 
 ## APIs Used
 1. Create a superuser to access the admin panel: `python manage.py createsuperuser`
 2. Start the development server: `python manage.py runserver`
 3. Access the admin panel at: `http://localhost:8000/admin/`
 4. Use the admin panel to manage users, profiles, PDF documents, and chat messages.
+
 
 
 ## API Endpoints

@@ -2,6 +2,14 @@ Django
 djangorestframework
 PyPDF2
 langchain
-python-dotenv
 OpenAI
 FAISS-cpu
+langchain
+PyPDF2
+django
+PyMuPDF
+python-dotenv
+mysqlclient
+openai
+tiktoken
+faiss-cpu

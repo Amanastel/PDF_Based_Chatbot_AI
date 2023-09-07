@@ -106,10 +106,12 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',
-#         'ENFORCE_SCHEMA': True,  # Add this line to enforce schema validation
-#         'NAME': 'pdfData',  # Replace with your MongoDB database name
+#         'ENFORCE_SCHEMA': True,  
+#         # 'NAME': 'pdfData',  
 #         'CLIENT': {
-#             'host': 'mongodb+srv://amankumarak0012:aman1234@cluster0.ox8jhgv.mongodb.net/test?retryWrites=true&w=majority',  # Replace with your MongoDB connection string
+#             'host': 'mongodb+srv://amankumarak0012:aman1234@cluster0.ox8jhgv.mongodb.net/pdfData?retryWrites=true&w=majority',  # Replace with your MongoDB connection string
+#             'username': 'amankumarak0012',
+#             'password': 'aman1234'
 #         }
 #     }
 # }

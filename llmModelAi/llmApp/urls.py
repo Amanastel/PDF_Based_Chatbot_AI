@@ -27,8 +27,8 @@ urlpatterns = [
     path('login/', views.user_login, name='login'),
     path('upload_pdf/', pdfChat.upload_pdf, name='upload_pdf'),
     path('ask_question/', pdfChat.ask_question, name='ask_question'),
-    path('view_pdf/<int:pdf_id>/', pdfChat.view_pdf, name='view_pdf'),
-    path('view_chat_history/', pdfChat.view_chat_history, name='view_chat_history'),
-    
+    path('pdfs/', pdfChat.list_pdfs, name='edit_pdf'),
+    path('pdfs/delete/<int:pdf_id>/', pdfChat.delete_pdf, name='delete_pdf'),
+    path('pdfs/update/<int:pdf_id>/', pdfChat.update_pdf, name='update_pdf'),
     
 ]

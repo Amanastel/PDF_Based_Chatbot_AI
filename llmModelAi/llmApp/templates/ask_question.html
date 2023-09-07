@@ -268,7 +268,9 @@
                 <li class="nav-item">
                   <a class="nav-link" href="home.html">Contact</a>
                 </li>
-
+                <li class="nav-item">
+                  <a class="nav-link" href="home.html">Edit PDF</a>
+                </li>
                 <li>
                     <form class="d-flex" role="search">
                         <a href="/logout/" class="btn btn-outline-success btn-light  " type="submit">Logout</a>
@@ -282,13 +284,13 @@
           <div class="logo"><a class="logoImg" href="{% url 'home' %}">Chat World</a></div>
           <div class="menu_main">
             <ul>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'home' %}">Home</a>
-                </li>
+              <li><a href="{% url 'home' %}">Home</a></li>   
               <li><a href="#">About</a></li>
               <li><a href="#">Services</a></li>
               <li><a href="#">Blog</a></li>
-              <li><a href="#">Contact us</a></li>    
+              <li><a href="#">Contact us</a></li>  
+              <li><a href="{% url 'edit_pdf' %}">Edit PDF</a></li>  
+              
             </ul>
           </div>
         </div>
@@ -386,10 +388,10 @@
                                 <span class="input-group-btn">
                                     <input class="btn btn-primary" id="btn-chat" type="submit" value="Ask" />
                                 </span>
+                                {% comment %} <a href="{% url 'edit_pdf' %}" class="btn btn-danger">Edit PDF</a> {% endcomment %}
                             </div>
-                      
-                           
                           </form>
+                          
                     </div>
                 </div>
             </div>

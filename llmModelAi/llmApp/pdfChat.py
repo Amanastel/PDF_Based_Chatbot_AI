@@ -22,7 +22,11 @@ import fitz  # PyMuPDF
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import PDFDocument
+from .forms import PDFUpdateForm, PDFDocumentForm2
 import os
+from django.http import HttpResponseNotFound
 from dotenv import load_dotenv
 
 
@@ -211,3 +215,34 @@ def view_pdf(request, pdf_id):
 def view_chat_history(request):
     chat_messages = ChatMessage.objects.filter(user=request.user)
     return render(request, 'view_chat_history.html', {'chat_messages': chat_messages})
+
+
+
+
+def list_pdfs(request):
+    pdfs = PDFDocument.objects.filter(user=request.user)
+    return render(request, 'edit_pdf.html', {'pdfs': pdfs})
+
+
+def delete_pdf(request, pdf_id):
+    try:
+        pdfs = PDFDocument.objects.get(id=pdf_id)
+        pdf_title = getattr(pdfs, 'document', pdfs.title)
+        pdfs.delete()
+        return redirect('/pdfs/')
+    except PDFDocument.DoesNotExist:
+        # Handle the case where the PDFDocument with the given id does not exist
+        return HttpResponseNotFound("PDF not found")
+
+
+def update_pdf(request, pdf_id):
+    pdf = get_object_or_404(PDFDocument, pk=pdf_id)
+    if request.method == 'POST':
+        form = PDFDocumentForm2(request.POST, instance=pdf)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Pdf updated successfully.')
+            return redirect('/pdfs/')
+    else:
+        form = PDFUpdateForm(instance=pdf)
+    return render(request, 'update_pdf.html', {'form': form, 'pdf': pdf})

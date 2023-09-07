@@ -36,8 +36,6 @@ def home(request):
 
 
 
-
-
 def register(request):
     if request.method == 'POST':
         data = request.POST

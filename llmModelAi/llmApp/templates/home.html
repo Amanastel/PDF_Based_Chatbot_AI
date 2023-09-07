@@ -68,11 +68,7 @@
                   <li><a href="#">Services</a></li>
                   <li><a href="#">Blog</a></li>
                   <li><a href="#">Contact us</a></li>
-                  <li>
-                    <form class="d-flex" role="search">
-                        <a href="/logout/" class="btn btn-outline-success btn-light  " type="submit">Logout</a>
-                      </form>
-                </li>
+                  <li><a href="{% url 'logout' %}">Logout</a></li>
                </ul>
             </div>
          </div>
@@ -187,10 +183,9 @@
          </div>
          <div class="social_icon">
             <ul>
-               <li><a href="#"><img src="{% static 'images/fb-icon.png' %}"></a></li>
-               <li><a href="#"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
-               <li><a href="#"><img src="{% static 'images/linkedin-icon.png'%}"></a></li>
-               <li><a href="#"><img src="{% static 'images/instagram-icon.png'%}"></a></li>
+               <li><a href="https://twitter.com/AmanAstel"><img src="{% static 'images/twitter-icon.png' %}"></a></li>
+               <li><a href="https://www.linkedin.com/in/aman-astel-18a543198/"><img src="{% static 'images/linkedin-icon.png'%}"></a></li>
+               <li><a href="https://www.instagram.com/aman_astel/"><img src="{% static 'images/instagram-icon.png'%}"></a></li>
             </ul>
          </div>
       </div>

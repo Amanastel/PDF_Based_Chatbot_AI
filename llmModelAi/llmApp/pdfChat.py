@@ -78,25 +78,7 @@ def get_conversation_chain(vectorstore):
     )
     return conversation_chain
 
-    
-    
-# def upload_pdf(request):
-#     if request.method == 'POST':
-#         form = PDFUploadForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             pdf_document = request.FILES['pdf_document']
-           
-#             # Save the PDF document to the database and process it here
-#             pdf = PDFDocument(user=request.user, title=pdf_document.name)
-#             pdf.save()
-#             pdf.documentContent = process_uploaded_pdf(pdf_document)
-#             pdf.save()
-#             return JsonResponse({'message': 'PDF uploaded successfully.'}, status=200)
-#         else:
-#             return JsonResponse({'error': 'Invalid form data.'}, status=400)
-#     else:
-#         form = PDFUploadForm()
-#     return render(request, 'ask_question.html', {'form': form})
+  
 
 @login_required(login_url="/login/")
 def upload_pdf(request):
@@ -122,40 +104,6 @@ def process_uploaded_pdf(pdf_file):
     # print(text_chunks)
     return raw_text
 
-
-
-# def ask_question(request):
-    chat_history = ChatMessage.objects.filter(user=request.user).order_by('timestamp')  # Retrieve chat history for the logged-in user
-    chat_response= ''
-    user_pdfs = PDFDocument.objects.filter(user=request.user)
-    if request.method == 'POST':
-        user_question = request.POST.get('user_question')
-        selected_pdf_id = request.POST.get('selected_pdf')
-        selected_pdf = get_object_or_404(PDFDocument, id=selected_pdf_id)
-        text_chunks = get_text_chunks(selected_pdf.documentContent)
-        print(text_chunks)
-        
-        knowledge_base = get_vectorstore(text_chunks)
-        
-        docs = knowledge_base.similarity_search(user_question)
-        
-        llm = OpenAI()
-        chain = load_qa_chain(llm, chain_type="stuff")
-        with get_openai_callback() as cb:
-                response = chain.run(input_documents=docs, question=user_question)
-        #         # print(response)
-        
-        chat_response = response
-        print(chat_response)
-        chat_message = ChatMessage(user=request.user, message=user_question, answer=chat_response)
-        chat_message.save()
-        
-        contexts = {'chat_response': chat_response, 'chat_history': chat_history}
-        
-        context = {'chat_response': chat_response, 'chat_history': chat_history, 'user_question': user_question}
-
-        
-    return render(request, 'ask_question.html', {'user_pdfs': user_pdfs, 'context': context})
 
 
 @login_required(login_url="/login/")
@@ -246,3 +194,104 @@ def update_pdf(request, pdf_id):
     else:
         form = PDFUpdateForm(instance=pdf)
     return render(request, 'update_pdf.html', {'form': form, 'pdf': pdf})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+# def upload_pdf(request):
+#     if request.method == 'POST':
+#         form = PDFUploadForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             pdf_document = request.FILES['pdf_document']
+           
+#             # Save the PDF document to the database and process it here
+#             pdf = PDFDocument(user=request.user, title=pdf_document.name)
+#             pdf.save()
+#             pdf.documentContent = process_uploaded_pdf(pdf_document)
+#             pdf.save()
+#             return JsonResponse({'message': 'PDF uploaded successfully.'}, status=200)
+#         else:
+#             return JsonResponse({'error': 'Invalid form data.'}, status=400)
+#     else:
+#         form = PDFUploadForm()
+#     return render(request, 'ask_question.html', {'form': form})
+
+
+
+# def ask_question(request):
+    chat_history = ChatMessage.objects.filter(user=request.user).order_by('timestamp')  # Retrieve chat history for the logged-in user
+    chat_response= ''
+    user_pdfs = PDFDocument.objects.filter(user=request.user)
+    if request.method == 'POST':
+        user_question = request.POST.get('user_question')
+        selected_pdf_id = request.POST.get('selected_pdf')
+        selected_pdf = get_object_or_404(PDFDocument, id=selected_pdf_id)
+        text_chunks = get_text_chunks(selected_pdf.documentContent)
+        print(text_chunks)
+        
+        knowledge_base = get_vectorstore(text_chunks)
+        
+        docs = knowledge_base.similarity_search(user_question)
+        
+        llm = OpenAI()
+        chain = load_qa_chain(llm, chain_type="stuff")
+        with get_openai_callback() as cb:
+                response = chain.run(input_documents=docs, question=user_question)
+        #         # print(response)
+        
+        chat_response = response
+        print(chat_response)
+        chat_message = ChatMessage(user=request.user, message=user_question, answer=chat_response)
+        chat_message.save()
+        
+        contexts = {'chat_response': chat_response, 'chat_history': chat_history}
+        
+        context = {'chat_response': chat_response, 'chat_history': chat_history, 'user_question': user_question}
+
+        
+    return render(request, 'ask_question.html', {'user_pdfs': user_pdfs, 'context': context})

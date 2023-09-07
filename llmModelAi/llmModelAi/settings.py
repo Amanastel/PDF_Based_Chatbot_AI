@@ -92,6 +92,36 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'if0_34984921_pdfbot',  # Your MySQL database name
+#         'USER': 'if0_34984921',         # Your MySQL username
+#         'PASSWORD': 'oqW3XdfWTnS',  # Replace with your MySQL password
+#         'HOST': 'sql113.infinityfree.com',  # Correct MySQL hostname
+#         'PORT': '3306',              # Default MySQL port
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'ENFORCE_SCHEMA': True,  # Add this line to enforce schema validation
+#         'NAME': 'pdfData',  # Replace with your MongoDB database name
+#         'CLIENT': {
+#             'host': 'mongodb+srv://amankumarak0012:aman1234@cluster0.ox8jhgv.mongodb.net/test?retryWrites=true&w=majority',  # Replace with your MongoDB connection string
+#         }
+#     }
+# }
+
+
+
+
+
+
+
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

@@ -1,4 +1,4 @@
-# PdfChat
+# Chat World
 
 ## Introduction
 This Django project demonstrates how to create a custom user model and define related models for user profiles, PDF documents, and chat messages.

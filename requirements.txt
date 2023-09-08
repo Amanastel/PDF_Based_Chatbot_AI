@@ -1,9 +1,5 @@
-Django
-djangorestframework
+django-rest-framework
 PyPDF2
-langchain
-OpenAI
-FAISS-cpu
 langchain
 PyPDF2
 django

@@ -7,5 +7,5 @@ PyMuPDF
 python-dotenv
 mysqlclient
 openai
-tiktoken
+tiktoken==0.8.2
 faiss-cpu

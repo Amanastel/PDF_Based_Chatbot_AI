@@ -1,8 +1,9 @@
+django
 django-rest-framework
+--upgrade pip
 PyPDF2
 langchain
 PyPDF2
-django
 PyMuPDF
 python-dotenv
 mysqlclient

@@ -1,9 +1,8 @@
-# PdfChat
+# Chat World
 
 ## Introduction
 This Django project demonstrates how to create a custom user model and define related models for user profiles, PDF documents, and chat messages.
-## Deplolyed App
-https://deployed-site.whatever
+
 
 
 ## Features
@@ -47,8 +46,8 @@ List your design desissions & assumptions
 Detailed instructions on how to install, configure, and get the project running.
 
 ```bash
-1. Clone the repository: `git clone https://github.com/amanastel/LLMDjango.git`
-2. Navigate to the project directory: `cd LLMDjango`
+1. Clone the repository: `git clone https://github.com/amanastel/PDF_Based_Chatbot_AI.git`
+2. Navigate to the project directory: `cd PDF_Based_Chatbot_AI`
 3. Create a virtual environment: `python3 -m venv venv`
 4. Activate the virtual environment: `source venv/bin/activate`
 5. Install dependencies: `pip install -r requirements.txt`

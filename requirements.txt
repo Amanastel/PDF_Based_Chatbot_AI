@@ -1,5 +1,5 @@
 mysqlclient
-tiktoken==31.2.2
+tiktoken==0.4.0
 aiohttp==3.8.5
 aioredis==2.0.1
 aiosignal==1.3.1

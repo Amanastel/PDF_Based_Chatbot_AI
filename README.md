@@ -35,12 +35,27 @@ Before you begin, ensure you have met the following requirements:
 
 
 
+## Screenshots
+
+Include some screenshots of your application here to give users a visual overview of your project.
+
+### Home Page
+![Home Page](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot1.png?raw=true)
+
+### Why choose AI
+![Our Services Page](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot2.png?raw=true)
+
+### Chat History
+![Chat History](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot5.png?raw=true)
+
+### Upload PDF Document
+![Upload PDF Document](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot6.png?raw=true)
+
+
+
 ## Getting Started
 
 
-
-## design decisions or assumptions
-List your design desissions & assumptions
 
 ## Installation & Getting started
 Detailed instructions on how to install, configure, and get the project running.
@@ -56,12 +71,7 @@ Detailed instructions on how to install, configure, and get the project running.
 8. Run the development server: `python manage.py runserver`
 ```
 
-## Usage
-Provide instructions and examples on how to use your project.
 
-```bash
-# Example
-```
 
 
 
@@ -100,7 +110,7 @@ List and provide a brief overview of the technologies used in the project.
 - Django
 - Python
 - Langchain
-- MySql
+- MySQL
 - Vue
 
 

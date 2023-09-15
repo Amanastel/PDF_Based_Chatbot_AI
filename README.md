@@ -45,11 +45,13 @@ Include some screenshots of your application here to give users a visual overvie
 ### Why choose AI
 ![Our Services Page](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot2.png?raw=true)
 
+### Upload PDF Document
+![Upload PDF Document](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot6.png?raw=true)
+
 ### Chat History
 ![Chat History](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot5.png?raw=true)
 
-### Upload PDF Document
-![Upload PDF Document](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot6.png?raw=true)
+
 
 
 

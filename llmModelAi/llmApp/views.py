@@ -31,12 +31,24 @@ os.getenv('OPENAI_API_KEY')
 # Create your views here.
 @login_required(login_url="/login/")
 def home(request):
+    """
+    Renders the home page.
+
+    :param request: HTTP request.
+    :return: Rendered home page with PDF documents.
+    """
     pdf_documents = PDFDocument.objects.filter(user=request.user)
     return render(request, 'home.html', {'pdf_documents': pdf_documents})
 
 
 
 def register(request):
+    """
+    Handles user registration.
+
+    :param request: HTTP request.
+    :return: Rendered registration page or redirects to registration page.
+    """
     if request.method == 'POST':
         data = request.POST
         first_name = data.get("first_name")
@@ -76,6 +88,12 @@ def register(request):
 
 
 def user_login(request):
+    """
+    Handles user login.
+
+    :param request: HTTP request.
+    :return: Redirects to the home page or shows an error message.
+    """
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -88,6 +106,12 @@ def user_login(request):
     return render(request, 'login.html')
 
 def user_logout(request):
+    """
+    Handles user logout.
+
+    :param request: HTTP request.
+    :return: Redirects to the login page.
+    """
     logout(request)
     return redirect('login')
 

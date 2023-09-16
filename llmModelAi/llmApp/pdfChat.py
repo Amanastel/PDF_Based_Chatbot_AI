@@ -38,11 +38,23 @@ pdfsize=None
 scripttext=None
 
 def get_vectorstore(text_chunks):
+    """
+    Retrieves the vector store for text chunks.
+
+    :param text_chunks: List of text chunks.
+    :return: Knowledge base vector store.
+    """
     embeddings = OpenAIEmbeddings()
     knowledge_base = FAISS.from_texts(text_chunks, embeddings)
     return knowledge_base
 
 def get_conversation_chain(vectorstore):
+     """
+    Retrieves the conversation chain.
+
+    :param vectorstore: Vector store.
+    :return: Conversational retrieval chain.
+    """
     llm = ChatOpenAI()
     # llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":512})
 
@@ -57,18 +69,31 @@ def get_conversation_chain(vectorstore):
 
 
 def get_pdf_text(pdf):
+    """
+    Retrieves text from a PDF document.
+
+    :param pdf: PDF file.
+    :return: Extracted text from the PDF.
+    """
     if pdf:
         pdf_reader = PdfReader(pdf)
         text = ''.join(page.extract_text() for page in pdf_reader.pages)
     return text
 
 def get_text_chunks(text):
+    """
+    Splits text into chunks.
+
+    :param text: Input text.
+    :return: List of text chunks.
+    """
     text_splitter = CharacterTextSplitter(separator="\n", chunk_size=1000, chunk_overlap=200, length_function=len)
     chunks = text_splitter.split_text(text)
     # print(chunks)
     return chunks
 
 def get_conversation_chain(vectorstore):
+    
     llm = ChatOpenAI()
     memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
@@ -82,6 +107,12 @@ def get_conversation_chain(vectorstore):
 
 @login_required(login_url="/login/")
 def upload_pdf(request):
+    """
+    Handles the PDF upload.
+
+    :param request: HTTP request.
+    :return: JSON response.
+    """
     if request.method == 'POST':
         form = PDFUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -98,6 +129,12 @@ def upload_pdf(request):
     return render(request, 'ask_question.html', {'form': form})
 
 def process_uploaded_pdf(pdf_file):
+    """
+    Processes the uploaded PDF document.
+
+    :param pdf_file: Uploaded PDF file.
+    :return: Extracted raw text from the PDF.
+    """
     raw_text = get_pdf_text(pdf_file)
     # print("Extracted PDF text:", raw_text)
     # text_chunks = get_text_chunks(raw_text)
@@ -108,6 +145,12 @@ def process_uploaded_pdf(pdf_file):
 
 @login_required(login_url="/login/")
 def ask_question(request):
+    """
+    Handles the user's question and generates a response.
+
+    :param request: HTTP request.
+    :return: Rendered page with the response.
+    """
     load_dotenv()
     chat_history = ChatMessage.objects.filter(user=request.user).order_by('timestamp')  # Retrieve chat history for the logged-in user
     chat_response = ''
@@ -141,6 +184,13 @@ def ask_question(request):
 
 
 def process_user_question(pdf, user_question):
+    """
+    Processes the user's question with a PDF document.
+
+    :param pdf: PDF document content.
+    :param user_question: User's question.
+    :return: Response to the user's question.
+    """
     embeddings = OpenAIEmbeddings()
     knowledge_base = FAISS.from_texts(pdf, embeddings)
     
@@ -156,11 +206,24 @@ def process_user_question(pdf, user_question):
     
 @login_required(login_url="/login/")
 def view_pdf(request, pdf_id):
+    """
+    Displays a PDF document.
+
+    :param request: HTTP request.
+    :param pdf_id: ID of the PDF document.
+    :return: Rendered page with the PDF document.
+    """
     pdf = PDFDocument.objects.get(id=pdf_id)
     return render(request, 'view_pdf.html', {'pdf': pdf})
 
 @login_required(login_url="/login/")
 def view_chat_history(request):
+    """
+    Displays the chat history for the logged-in user.
+
+    :param request: HTTP request.
+    :return: Rendered page with chat history.
+    """
     chat_messages = ChatMessage.objects.filter(user=request.user)
     return render(request, 'view_chat_history.html', {'chat_messages': chat_messages})
 
@@ -168,11 +231,24 @@ def view_chat_history(request):
 
 
 def list_pdfs(request):
+    """
+    Lists PDF documents for the logged-in user.
+
+    :param request: HTTP request.
+    :return: Rendered page with the list of PDF documents.
+    """
     pdfs = PDFDocument.objects.filter(user=request.user)
     return render(request, 'edit_pdf.html', {'pdfs': pdfs})
 
 
 def delete_pdf(request, pdf_id):
+    """
+    Deletes a PDF document.
+
+    :param request: HTTP request.
+    :param pdf_id: ID of the PDF document to delete.
+    :return: Redirect or error response.
+    """
     try:
         pdfs = PDFDocument.objects.get(id=pdf_id)
         pdf_title = getattr(pdfs, 'document', pdfs.title)
@@ -184,6 +260,13 @@ def delete_pdf(request, pdf_id):
 
 
 def update_pdf(request, pdf_id):
+    """
+    Updates a PDF document.
+
+    :param request: HTTP request.
+    :param pdf_id: ID of the PDF document to update.
+    :return: Rendered page with the updated PDF document.
+    """
     pdf = get_object_or_404(PDFDocument, pk=pdf_id)
     if request.method == 'POST':
         form = PDFDocumentForm2(request.POST, instance=pdf)

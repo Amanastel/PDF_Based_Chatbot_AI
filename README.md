@@ -37,7 +37,7 @@ Before you begin, ensure you have met the following requirements:
 
 ## Screenshots
 
-Include some screenshots of your application here to give users a visual overview of your project.
+
 
 ### Home Page
 ![Home Page](https://github.com/Amanastel/PDF_Based_Chatbot_AI/blob/main/assets/Screenshot1.png?raw=true)

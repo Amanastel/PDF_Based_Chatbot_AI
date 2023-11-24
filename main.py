@@ -23,6 +23,8 @@ def main():
     if pdf is not None:
         # read pdf
         pdf_reader = PdfReader(pdf)
+
+        
         
         # extract text
         text=''

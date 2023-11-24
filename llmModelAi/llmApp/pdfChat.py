@@ -49,15 +49,13 @@ def get_vectorstore(text_chunks):
     return knowledge_base
 
 def get_conversation_chain(vectorstore):
-     """
+    """
     Retrieves the conversation chain.
 
     :param vectorstore: Vector store.
     :return: Conversational retrieval chain.
     """
     llm = ChatOpenAI()
-    # llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":512})
-
     memory = ConversationBufferMemory(
         memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
@@ -66,6 +64,9 @@ def get_conversation_chain(vectorstore):
         memory=memory
     )
     return conversation_chain
+
+
+
 
 
 def get_pdf_text(pdf):

@@ -82,27 +82,27 @@ WSGI_APPLICATION = "llmModelAi.wsgi.application"
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'llmModel',
-#         'USER': 'root',
-#         'PASSWORD': 'aman1234',
-#         'HOST':'localhost',
-#         'PORT':'3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'railway',  # Use the MYSQLDATABASE value
-        'USER': 'root',  # Use the MYSQLUSER value
-        'PASSWORD': 'JIJalPZX2PotxapB4AxL',  # Use the MYSQLPASSWORD value
-        'HOST': 'containers-us-west-178.railway.app',  # Use the MYSQLHOST value
-        'PORT': '7765',  # Use the MYSQLPORT value
+        'NAME': 'llmModel',
+        'USER': 'root',
+        'PASSWORD': 'aman1234',
+        'HOST':'localhost',
+        'PORT':'3306',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'railway',  # Use the MYSQLDATABASE value
+#         'USER': 'root',  # Use the MYSQLUSER value
+#         'PASSWORD': 'JIJalPZX2PotxapB4AxL',  # Use the MYSQLPASSWORD value
+#         'HOST': 'containers-us-west-178.railway.app',  # Use the MYSQLHOST value
+#         'PORT': '7765',  # Use the MYSQLPORT value
+#     }
+# }
 
 # DATABASES = {
 #     'default': {

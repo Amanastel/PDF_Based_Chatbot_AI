@@ -1,5 +1,7 @@
 myenv
 .env
 .DS_Store
+myenv
+venv
 
 
